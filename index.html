@@ -3,11 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokémon - Franco Santino Di Vilio</title>
+    <title>Proyecto Pokémon - Franco Santino Di Vilio</title>
     <link rel="stylesheet" href="./assets/CSS/style.css">
 </head>
 <body>
     <h1>Pokémon</h1>
+
+    <div class="controles">
+        <input type="text" id="buscador" placeholder="Buscar Pokémon por nombre...">
+        
+        <select id="filtroTipo">
+            <option value="">Todos los tipos</option>
+        </select>
+    </div>
+
+    <div id="listaPokemon" class="grid-pokemon"></div>
+
 </body>
 <script typ="module" src="main.js"></script>
+<!--Consigna: Proyecto Pokémon
+Lo básico:
+1-Que tenga lista de pokémon existentes
+2-Buscar pokémon por nombre
+3-Filtrar pokémon por tipos y generaciones
+4-Ver información de pokémon individual (que tenga un diseño avanzado de evoluciones y subevoluciones con CSS)
+
+Lo avanzado:
+1-Un quiz tipo WORDLE pero cada vez que actualiza la página de quiz aparece una silueta de pokémon (puede ser uno random entre todas las imágenes que tiene para empezar) en negro y 
+hay que escribir para acertar. En cada intento que falla, que se agreguen pistas poco a poco (mostrar tipos, mostrar qué generación es, etc) con intentos limitados.
+2-Comparador de pokémon. Que en la página de comparador se pueda elegir hasta tres pokémon y compararlos con un comparador gráfico usando CSS puro.-->
 </html>
