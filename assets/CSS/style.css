@@ -5,7 +5,7 @@
 }
 
 body {
-    background-color: #f0f2f5;
+    background-color: #ffee00;
     color: #333;
     padding: 2rem 1.25rem;
 }
@@ -47,7 +47,7 @@ input:focus, select:focus { border-color: #3b82f6; }
 }
 
 .card {
-    background: white;
+    background: beige;
     padding: 1.25rem;
     border-radius: 0.75rem;
     text-align: center;
@@ -74,4 +74,23 @@ input:focus, select:focus { border-color: #3b82f6; }
     font-size: 0.9rem;
     color: #718096;
     text-transform: capitalize;
+}
+
+/*Para tablets / celulares*/
+
+@media (max-width: 480px) {
+    .controles {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    input, select {
+        width: 100%;
+        max-width: 20rem;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 20rem;
+    }
 }
