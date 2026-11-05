@@ -76,6 +76,116 @@ input:focus, select:focus { border-color: #3b82f6; }
     text-transform: capitalize;
 }
 
+.detalle-container {
+    max-width: 60rem;
+    margin: 2rem auto;
+    background: white;
+    padding: 2.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.oculto { display: none !important; }
+
+.btn-volver {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    transition: background-color 0.2s;
+}
+
+.btn-volver:hover {
+    background-color: #2563eb;
+}
+
+.detalle-info {
+    text-align: center;
+}
+
+.detalle-info img {
+    width: 10rem;
+    height: 10rem;
+    object-fit: contain;
+}
+
+.detalle-info h2 {
+    font-size: 2.2rem;
+    text-transform: uppercase;
+    color: #1f2937;
+    margin: 1rem 0;
+}
+
+.evoluciones-section {
+    margin-top: 3rem;
+    border-top: 0.125rem solid #e5e7eb;
+    padding-top: 2rem;
+}
+
+.evoluciones-section h3 {
+    margin-bottom: 1.5rem;
+    color: #4b5563;
+    font-size: 1.5rem;
+}
+
+.chain-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.chain-level {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.evolution-card {
+    background: #f9fafb;
+    border: 0.125rem solid #e5e7eb;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 10rem;
+    box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,0.05);
+}
+
+.evolution-card:hover {
+    transform: translateY(-0.25rem);
+    border-color: #3b82f6;
+    box-shadow: 0 0.5rem 1rem rgba(59, 130, 246, 0.15);
+}
+
+.evolution-card img {
+    width: 5rem;
+    height: 5rem;
+    object-fit: contain;
+}
+
+.evolution-card p {
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: #374151;
+    text-transform: capitalize;
+    margin-top: 0.5rem;
+}
+
+.evolution-arrow {
+    font-size: 1.5rem;
+    color: #9ca3af;
+    font-weight: bold;
+}
+
 /*Para tablets / celulares*/
 
 @media (max-width: 480px) {
