@@ -272,6 +272,118 @@ input:focus, select:focus { border-color: #3b82f6; }
     color: #6b7280;
 }*/
 
+.btn-comparador {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.2s;
+    margin-left: 0.5rem;
+}
+
+.btn-comparador:hover {
+    background-color: #2563eb;
+}
+
+.comparador-container {
+    max-width: 60rem;
+    margin: 2rem auto;
+    background: white;
+    padding: 2.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.selectores-comparador {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.comp-select {
+    padding: 0.6rem;
+    border-radius: 0.5rem;
+    border: 0.0625rem solid #d1d5db;
+    font-size: 1rem;
+    outline: none;
+    flex: 1;
+    min-width: 12rem;
+}
+
+.btn-comparar {
+    display: block;
+    margin: 0 auto 2rem auto;
+    padding: 0.6rem 1.5rem;
+    background-color: #10b981;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-comparar:hover {
+    background-color: #059669;
+}
+
+.resultado-comparacion {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1.5rem;
+}
+
+.pokemon-compare-card {
+    background: #f9fafb;
+    border: 0.0625rem solid #e5e7eb;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    text-align: center;
+}
+
+.pokemon-compare-card img {
+    width: 9rem;
+    height: 9rem;
+    object-fit: contain;
+    margin-bottom: 0.5rem;
+}
+
+.stat-row {
+    margin-bottom: 0.8rem;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+.stat-label {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    color: #4b5563;
+    margin-bottom: 0.2rem;
+}
+
+.stat-bar-container {
+    background: #e5e7eb;
+    border-radius: 0.4rem;
+    height: 0.8rem;
+    width: 100%;
+    overflow: hidden;
+}
+
+.stat-bar-fill {
+    height: 100%;
+    background-color: #3b82f6;
+    border-radius: 0.4rem;
+    transition: width 0.5s ease;
+}
+
 /*Media query para tablets / celulares*/
 
 @media (max-width: 780px) {

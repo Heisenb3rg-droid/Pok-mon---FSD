@@ -10,7 +10,7 @@
     <h1>Enciclopedia de Pokémon</h1>
 
     <div class="controles">
-        <input type="text" id="buscador" placeholder="Buscar Pokémon por nombre...">
+        <input type="text" id="buscador" placeholder="Buscar por nombre...">
         
         <select id="filtroTipo">
             <option value="">Todos los tipos</option>
@@ -30,6 +30,8 @@
         </select>
 
         <button id="btnAbrirQuiz" class="btn-quiz">Quiz Time!</button>
+        
+        <button id="btnAbrirComparador" class="btn-comparador">Comparador</button>
     </div>
 
     <div id="listaPokemon" class="grid-pokemon"></div>
@@ -52,6 +54,27 @@
             <p id="quizResultado"></p>
             <p id="quizIntentos">Intentos restantes: 3</p>
         </div>
+    </div>
+
+    <div id="vistaComparador" class="comparador-container oculto">
+        <button id="btnVolverComparador" class="btn-volver">Volver</button>
+        <h2>Comparador de Pokémon (Hasta 3)</h2>
+        
+        <div class="selectores-comparador">
+            <select id="compPokemon1" class="comp-select">
+                <option value="">Seleccionar Pokémon 1</option>
+            </select>
+            <select id="compPokemon2" class="comp-select">
+                <option value="">Seleccionar Pokémon 2</option>
+            </select>
+            <select id="compPokemon3" class="comp-select">
+                <option value="">Seleccionar Pokémon 3</option>
+            </select>
+        </div>
+
+        <button id="btnEjecutarComparacion" class="btn-comparar">Comparar Estadísticas</button>
+
+        <div id="resultadoComparacion" class="resultado-comparacion"></div>
     </div>
 
 </body>

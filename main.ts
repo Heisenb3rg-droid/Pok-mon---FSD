@@ -224,11 +224,13 @@ function iniciarQuiz(): void {
     const tituloPrincipal = document.querySelector('h1') as HTMLElement;
     const vistaDetalle = document.getElementById('vistaDetalle') as HTMLElement;
     const vistaQuiz = document.getElementById('vistaQuiz') as HTMLElement;
+    const vistaComparador = document.getElementById('vistaComparador') as HTMLElement;
 
     if (grillaPrincipal) grillaPrincipal.classList.add('oculto');
     if (controles) controles.classList.add('oculto');
     if (tituloPrincipal) tituloPrincipal.classList.add('oculto');
     if (vistaDetalle) vistaDetalle.classList.add('oculto');
+    if (vistaComparador) vistaComparador.classList.add('oculto');
     if (vistaQuiz) vistaQuiz.classList.remove('oculto');
 
     cargarNuevoPokemonQuiz();
@@ -318,6 +320,108 @@ function verificarAdivinanza(): void {
     }
 }
 
+function iniciarComparador(): void {
+    if (todosLosPokemones.length === 0) {
+        alert("Los Pokémon aún se están cargando, por favor aguarda un momento.");
+        return;
+    }
+
+    const grillaPrincipal = document.getElementById('listaPokemon') as HTMLElement;
+    const controles = document.querySelector('.controles') as HTMLElement;
+    const tituloPrincipal = document.querySelector('h1') as HTMLElement;
+    const vistaDetalle = document.getElementById('vistaDetalle') as HTMLElement;
+    const vistaQuiz = document.getElementById('vistaQuiz') as HTMLElement;
+    const vistaComparador = document.getElementById('vistaComparador') as HTMLElement;
+
+    if (grillaPrincipal) grillaPrincipal.classList.add('oculto');
+    if (controles) controles.classList.add('oculto');
+    if (tituloPrincipal) tituloPrincipal.classList.add('oculto');
+    if (vistaDetalle) vistaDetalle.classList.add('oculto');
+    if (vistaQuiz) vistaQuiz.classList.add('oculto');
+    if (vistaComparador) vistaComparador.classList.remove('oculto');
+
+    poblarSelectsComparador();
+}
+
+function poblarSelectsComparador(): void {
+    const selects = ['compPokemon1', 'compPokemon2', 'compPokemon3'];
+    
+    selects.forEach(idSelect => {
+        const select = document.getElementById(idSelect) as HTMLSelectElement;
+        if (!select || select.options.length > 1) return;
+
+        todosLosPokemones.forEach(pokemon => {
+            const option = document.createElement('option');
+            option.value = pokemon.id.toString();
+            option.textContent = `#${pokemon.id} - ${pokemon.name.toUpperCase()}`;
+            select.appendChild(option);
+        });
+    });
+}
+
+function ejecutarComparacion(): void {
+    const id1 = (document.getElementById('compPokemon1') as HTMLSelectElement).value;
+    const id2 = (document.getElementById('compPokemon2') as HTMLSelectElement).value;
+    const id3 = (document.getElementById('compPokemon3') as HTMLSelectElement).value;
+
+    const contenedorResultado = document.getElementById('resultadoComparacion') as HTMLElement;
+    if (!contenedorResultado) return;
+
+    contenedorResultado.innerHTML = '';
+
+    const idsSeleccionados = [id1, id2, id3].filter(id => id !== "");
+
+    if (idsSeleccionados.length === 0) {
+        contenedorResultado.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #ef4444;">Por favor, selecciona al menos un Pokémon para comparar.</p>';
+        return;
+    }
+
+    idsSeleccionados.forEach(idStr => {
+        const pokemon = todosLosPokemones.find(p => p.id.toString() === idStr);
+        if (!pokemon) return;
+
+        const tipos = pokemon.types.map((t: any) => t.type.name).join(', ');
+        
+        const hp = pokemon.stats.find((s: any) => s.stat.name === 'hp')?.base_stat || 0;
+        const attack = pokemon.stats.find((s: any) => s.stat.name === 'attack')?.base_stat || 0;
+        const defense = pokemon.stats.find((s: any) => s.stat.name === 'defense')?.base_stat || 0;
+        const speed = pokemon.stats.find((s: any) => s.stat.name === 'speed')?.base_stat || 0;
+
+        const maxStat = 255; 
+        const calcPorcentaje = (val: number) => Math.min(Math.round((val / maxStat) * 100), 100);
+
+        const card = document.createElement('div');
+        card.classList.add('pokemon-compare-card');
+        card.innerHTML = `
+            <img src="${pokemon.sprites.front_default}" alt="${pokemon.name}">
+            <h3>#${pokemon.id} - ${pokemon.name.toUpperCase()}</h3>
+            <p style="font-size: 0.85rem; color: #6b7280; margin-bottom: 1rem;">Tipo: ${tipos}</p>
+            
+            <div class="stat-row">
+                <div class="stat-label"><span>HP</span> <span>${hp}</span></div>
+                <div class="stat-bar-container"><div class="stat-bar-fill" style="width: ${calcPorcentaje(hp)}%; background-color: #10b981;"></div></div>
+            </div>
+
+            <div class="stat-row">
+                <div class="stat-label"><span>Ataque</span> <span>${attack}</span></div>
+                <div class="stat-bar-container"><div class="stat-bar-fill" style="width: ${calcPorcentaje(attack)}%; background-color: #ef4444;"></div></div>
+            </div>
+
+            <div class="stat-row">
+                <div class="stat-label"><span>Defensa</span> <span>${defense}</span></div>
+                <div class="stat-bar-container"><div class="stat-bar-fill" style="width: ${calcPorcentaje(defense)}%; background-color: #3b82f6;"></div></div>
+            </div>
+
+            <div class="stat-row">
+                <div class="stat-label"><span>Velocidad</span> <span>${speed}</span></div>
+                <div class="stat-bar-container"><div class="stat-bar-fill" style="width: ${calcPorcentaje(speed)}%; background-color: #f59e0b;"></div></div>
+            </div>
+        `;
+
+        contenedorResultado.appendChild(card);
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     const inputBuscador = document.getElementById('buscador') as HTMLInputElement;
     if (inputBuscador) {
@@ -381,6 +485,31 @@ document.addEventListener('DOMContentLoaded', function () {
                 verificarAdivinanza();
             }
         });
+    }
+
+    const btnAbrirComparador = document.getElementById('btnAbrirComparador');
+    if (btnAbrirComparador) {
+        btnAbrirComparador.addEventListener('click', iniciarComparador);
+    }
+
+    const btnVolverComparador = document.getElementById('btnVolverComparador');
+    if (btnVolverComparador) {
+        btnVolverComparador.addEventListener('click', function() {
+            const grillaPrincipal = document.getElementById('listaPokemon') as HTMLElement;
+            const controles = document.querySelector('.controles') as HTMLElement;
+            const tituloPrincipal = document.querySelector('h1') as HTMLElement;
+            const vistaComparador = document.getElementById('vistaComparador') as HTMLElement;
+
+            if (grillaPrincipal) grillaPrincipal.classList.remove('oculto');
+            if (controles) controles.classList.remove('oculto');
+            if (tituloPrincipal) tituloPrincipal.classList.remove('oculto');
+            if (vistaComparador) vistaComparador.classList.add('oculto');
+        });
+    }
+
+    const btnEjecutarComparacion = document.getElementById('btnEjecutarComparacion');
+    if (btnEjecutarComparacion) {
+        btnEjecutarComparacion.addEventListener('click', ejecutarComparacion);
     }
 
     cargarTipos();
