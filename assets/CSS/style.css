@@ -186,7 +186,7 @@ input:focus, select:focus { border-color: #3b82f6; }
     font-weight: bold;
 }
 
-/*Lo avanzado
+/*Lo avanzado*/
 
 .btn-quiz {
     background-color: #10b981;
@@ -261,7 +261,7 @@ input:focus, select:focus { border-color: #3b82f6; }
     font-weight: bold;
 }
 
-#quizResultado {
+/*#quizResultado {
     margin-top: 1rem;
     font-weight: bold;
     font-size: 1.1rem;
@@ -270,8 +270,7 @@ input:focus, select:focus { border-color: #3b82f6; }
 #quizIntentos {
     margin-top: 0.5rem;
     color: #6b7280;
-}
-    */
+}*/
 
 /*Media query para tablets / celulares*/
 

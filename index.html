@@ -9,7 +9,7 @@
 <body>
     <h1>Enciclopedia de Pokémon</h1>
 
-    <div class="controles"> <!--Acá se muestran la barra para buscar Pokémon por nombre, el filtro basado en tipos y el filtro basado en generación-->
+    <div class="controles">
         <input type="text" id="buscador" placeholder="Buscar Pokémon por nombre...">
         
         <select id="filtroTipo">
@@ -17,50 +17,45 @@
         </select>
 
         <select id="filtroGeneracion">
-        <option value="">Todas las generaciones</option>
-        <option value="gen1">Generación 1 (1 - 151)</option>
-        <option value="gen2">Generación 2 (152 - 251)</option>
-        <option value="gen3">Generación 3 (252 - 386)</option>
-        <option value="gen4">Generación 4 (387 - 493)</option>
-        <option value="gen5">Generación 5 (494 - 649)</option>
-        <option value="gen6">Generación 6 (650 - 721)</option>
-        <option value="gen7">Generación 7 (722 - 809)</option>
-        <option value="gen8">Generación 8 (810 - 905)</option>
-        <option value="gen9">Generación 9 (906 - 1025)</option>
-    </select>
+            <option value="">Todas las generaciones</option>
+            <option value="gen1">Generación 1 (1 - 151)</option>
+            <option value="gen2">Generación 2 (152 - 251)</option>
+            <option value="gen3">Generación 3 (252 - 386)</option>
+            <option value="gen4">Generación 4 (387 - 493)</option>
+            <option value="gen5">Generación 5 (494 - 649)</option>
+            <option value="gen6">Generación 6 (650 - 721)</option>
+            <option value="gen7">Generación 7 (722 - 809)</option>
+            <option value="gen8">Generación 8 (810 - 905)</option>
+            <option value="gen9">Generación 9 (906 - 1025)</option>
+        </select>
+
+        <button id="btnAbrirQuiz" class="btn-quiz">Quiz Time!</button>
     </div>
 
-    <div id="listaPokemon" class="grid-pokemon"></div> <!--Mostrar todos los Pokémon-->
+    <div id="listaPokemon" class="grid-pokemon"></div>
 
     <div id="vistaDetalle" class="detalle-container oculto">
-    <button id="btnVolver" class="btn-volver">Volver</button>
-    <div id="detalleContenido"></div>
+        <button id="btnVolver" class="btn-volver">Volver</button>
+        <div id="detalleContenido"></div>
     </div>
-
-    <!--<br>
-    <br>
-    <hr></hr> Esta es la barra para separar lo anterior (lo básico) y lo que está por venir (lo avanzado)
-    <br>
-    <br>
-<button id="btnAbrirQuiz" class="btn-quiz">Quiz Time!</button>
-
-<div id="vistaQuiz" class="quiz-container oculto">
-    <button id="btnVolverQuiz" class="btn-volver">Volver</button>
-    <h2>¿Quién es este Pokémon?</h2>
-    <div class="quiz-box">
-        <img id="quizImagen" class="pokemon-silueta" src="" alt="Silueta Pokémon">
-        <div id="quizPistas" class="quiz-pistas"><strong>Pista:</strong> ¡Adivina el Pokémon oculto!</div>
-        <div class="quiz-input-group">
-            <input type="text" id="quizInput" placeholder="Escribe el nombre...">
-            <button id="quizBtnAdivinar">Adivinar</button>
+    
+    <div id="vistaQuiz" class="quiz-container oculto">
+        <button id="btnVolverQuiz" class="btn-volver">Volver</button>
+        <h2>¿Quién es este Pokémon?</h2>
+        <div class="quiz-box">
+            <img id="quizImagen" class="pokemon-silueta" src="" alt="Silueta Pokémon">
+            <div id="quizPistas" class="quiz-pistas"><strong>Pista:</strong> ¡Adivina el Pokémon oculto!</div>
+            <div class="quiz-input-group">
+                <input type="text" id="quizInput" placeholder="Escribe el nombre...">
+                <button id="quizBtnAdivinar">Adivinar</button>
+            </div>
+            <p id="quizResultado"></p>
+            <p id="quizIntentos">Intentos restantes: 3</p>
         </div>
-        <p id="quizResultado"></p>
-        <p id="quizIntentos">Intentos restantes: 3</p>
     </div>
-</div>-->
 
 </body>
-<script typ="module" src="main.js"></script>
+<script type="module" src="main.js"></script>
 <!--Consigna: Proyecto Pokémon
 Lo básico:
 1-Que tenga lista de pokémon existentes

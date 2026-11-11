@@ -201,6 +201,124 @@ function construirArbolEvolutivo(node, contenedor) {
         });
     }
 }
+let pokemonActualQuiz = null;
+let intentosRestantes = 3;
+function iniciarQuiz() {
+    if (todosLosPokemones.length === 0) {
+        alert("Los Pokémon aún se están cargando, por favor aguarda un momento.");
+        return;
+    }
+    const grillaPrincipal = document.getElementById('listaPokemon');
+    const controles = document.querySelector('.controles');
+    const tituloPrincipal = document.querySelector('h1');
+    const vistaDetalle = document.getElementById('vistaDetalle');
+    const vistaQuiz = document.getElementById('vistaQuiz');
+    if (grillaPrincipal)
+        grillaPrincipal.classList.add('oculto');
+    if (controles)
+        controles.classList.add('oculto');
+    if (tituloPrincipal)
+        tituloPrincipal.classList.add('oculto');
+    if (vistaDetalle)
+        vistaDetalle.classList.add('oculto');
+    if (vistaQuiz)
+        vistaQuiz.classList.remove('oculto');
+    cargarNuevoPokemonQuiz();
+}
+function cargarNuevoPokemonQuiz() {
+    intentosRestantes = 3;
+    const indiceAleatorio = Math.floor(Math.random() * todosLosPokemones.length);
+    pokemonActualQuiz = todosLosPokemones[indiceAleatorio];
+    const img = document.getElementById('quizImagen');
+    const pistas = document.getElementById('quizPistas');
+    const resultado = document.getElementById('quizResultado');
+    const intentosTxt = document.getElementById('quizIntentos');
+    const input = document.getElementById('quizInput');
+    if (img) {
+        img.src = pokemonActualQuiz.sprites.front_default;
+        img.classList.remove('pokemon-revelado');
+    }
+    if (pistas)
+        pistas.innerHTML = "<strong>Pista:</strong> ¡Adivina el Pokémon oculto!";
+    if (resultado)
+        resultado.textContent = "";
+    if (intentosTxt)
+        intentosTxt.textContent = `Intentos restantes: ${intentosRestantes}`;
+    if (input) {
+        input.value = "";
+        input.disabled = false;
+        input.focus();
+    }
+}
+function verificarAdivinanza() {
+    const input = document.getElementById('quizInput');
+    const resultado = document.getElementById('quizResultado');
+    const pistas = document.getElementById('quizPistas');
+    const intentosTxt = document.getElementById('quizIntentos');
+    const img = document.getElementById('quizImagen');
+    if (!input || !pokemonActualQuiz)
+        return;
+    const respuestaUsuario = input.value.trim().toLowerCase();
+    const nombreReal = pokemonActualQuiz.name.toLowerCase();
+    if (respuestaUsuario === nombreReal) {
+        if (resultado) {
+            resultado.style.color = "#10b981";
+            resultado.textContent = `¡Correcto! Era ${pokemonActualQuiz.name.toUpperCase()} 🎉`;
+        }
+        if (img)
+            img.classList.add('pokemon-revelado');
+        input.disabled = true;
+        setTimeout(cargarNuevoPokemonQuiz, 3500);
+    }
+    else {
+        intentosRestantes--;
+        if (intentosRestantes > 0) {
+            if (intentosTxt)
+                intentosTxt.textContent = `Intentos restantes: ${intentosRestantes}`;
+            if (resultado) {
+                resultado.style.color = "#ef4444";
+                resultado.textContent = "¡Incorrecto! Se ha revelado una pista.";
+            }
+            const tipos = pokemonActualQuiz.types.map((t) => t.type.name).join(', ');
+            let nombreGen = "1";
+            const id = pokemonActualQuiz.id;
+            if (id >= 152 && id <= 251)
+                nombreGen = "2";
+            else if (id >= 252 && id <= 386)
+                nombreGen = "3";
+            else if (id >= 387 && id <= 493)
+                nombreGen = "4";
+            else if (id >= 494 && id <= 649)
+                nombreGen = "5";
+            else if (id >= 650 && id <= 721)
+                nombreGen = "6";
+            else if (id >= 722 && id <= 809)
+                nombreGen = "7";
+            else if (id >= 810 && id <= 905)
+                nombreGen = "8";
+            else if (id >= 906 && id <= 1025)
+                nombreGen = "9";
+            if (intentosRestantes === 2) {
+                pistas.innerHTML = `<strong>Pista 1 (Tipos):</strong> Sus tipos son ${tipos}`;
+            }
+            else if (intentosRestantes === 1) {
+                pistas.innerHTML = `<strong>Pista 2 (Generación):</strong> Pertenece a la Generación ${nombreGen} y su nombre empieza con "${nombreReal.charAt(0).toUpperCase()}"`;
+            }
+        }
+        else {
+            if (intentosTxt)
+                intentosTxt.textContent = "¡Te quedaste sin intentos!";
+            if (resultado) {
+                resultado.style.color = "#ef4444";
+                resultado.textContent = `Era ${pokemonActualQuiz.name.toUpperCase()}. ¡Nueva ronda en breve!`;
+            }
+            if (img)
+                img.classList.add('pokemon-revelado');
+            input.disabled = true;
+            setTimeout(cargarNuevoPokemonQuiz, 4000);
+        }
+    }
+}
 document.addEventListener('DOMContentLoaded', function () {
     const inputBuscador = document.getElementById('buscador');
     if (inputBuscador) {
@@ -229,6 +347,39 @@ document.addEventListener('DOMContentLoaded', function () {
                 tituloPrincipal.classList.remove('oculto');
             if (vistaDetalle)
                 vistaDetalle.classList.add('oculto');
+        });
+    }
+    const btnAbrirQuiz = document.getElementById('btnAbrirQuiz');
+    if (btnAbrirQuiz) {
+        btnAbrirQuiz.addEventListener('click', iniciarQuiz);
+    }
+    const btnVolverQuiz = document.getElementById('btnVolverQuiz');
+    if (btnVolverQuiz) {
+        btnVolverQuiz.addEventListener('click', function () {
+            const grillaPrincipal = document.getElementById('listaPokemon');
+            const controles = document.querySelector('.controles');
+            const tituloPrincipal = document.querySelector('h1');
+            const vistaQuiz = document.getElementById('vistaQuiz');
+            if (grillaPrincipal)
+                grillaPrincipal.classList.remove('oculto');
+            if (controles)
+                controles.classList.remove('oculto');
+            if (tituloPrincipal)
+                tituloPrincipal.classList.remove('oculto');
+            if (vistaQuiz)
+                vistaQuiz.classList.add('oculto');
+        });
+    }
+    const btnAdivinar = document.getElementById('quizBtnAdivinar');
+    if (btnAdivinar) {
+        btnAdivinar.addEventListener('click', verificarAdivinanza);
+    }
+    const quizInput = document.getElementById('quizInput');
+    if (quizInput) {
+        quizInput.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                verificarAdivinanza();
+            }
         });
     }
     cargarTipos();
