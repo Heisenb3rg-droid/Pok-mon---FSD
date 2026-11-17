@@ -20,7 +20,7 @@ function cargarTipos() {
     });
 }
 function cargarPokemones() {
-    fetch('https://pokeapi.co/api/v2/pokemon?limit=1250')
+    fetch('https://pokeapi.co/api/v2/pokemon?limit=1025')
         .then(function (respuesta) {
         return respuesta.json();
     })
