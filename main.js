@@ -61,7 +61,6 @@ function mostrarPokemones(lista) {
         }).join(', ');
         let nombreGen = "Desconocida";
         const id = pokemon.id;
-        // Asignación estática de generación basada en los rangos oficiales de IDs
         if (id >= 1 && id <= 151)
             nombreGen = "1";
         else if (id >= 152 && id <= 251)
@@ -88,15 +87,13 @@ function mostrarPokemones(lista) {
             <p>Tipo(s): ${tipos}</p>
             <p>Generación: ${nombreGen}</p>
         `;
-        // Al hacer clic en la tarjeta, navega a la vista de detalle del Pokémon seleccionado
         tarjeta.onclick = function () {
             verDetallePokemon(pokemon.id);
         };
         contenedor.appendChild(tarjeta);
     });
 }
-// 4. MOTOR DE FILTRADO COMBINADO - Lee los valores actuales del buscador de texto, el selector de tipo y el selector de generación,
-// aplicando un filtro lógico sobre el array global en memoria.
+// 4. MOTOR DE FILTRADO COMBINADO - Lee los valores actuales del buscador de texto, el selector de tipo y el selector de generación
 function filtrarPokemones() {
     const inputBuscador = document.getElementById('buscador');
     const selectTipo = document.getElementById('filtroTipo');
@@ -141,8 +138,7 @@ function filtrarPokemones() {
     });
     mostrarPokemones(filtrados);
 }
-// 5. VISTA DE DETALLE E INICIO DE CADENA EVOLUTIVA - Oculta la grilla principal y muestra la tarjeta detallada del Pokémon consultando
-// primero sus datos generales, luego su especie y finalmente su cadena de evolución.
+// 5. VISTA DE DETALLE E INICIO DE CADENA EVOLUTIVA
 function verDetallePokemon(idOrName) {
     const grillaPrincipal = document.getElementById('listaPokemon');
     const controles = document.querySelector('.controles');
@@ -192,8 +188,7 @@ function verDetallePokemon(idOrName) {
         console.error("Error al cargar los detalles del Pokémon:", err);
     });
 }
-// 6. ÁRBOL EVOLUTIVO RECURSIVO - Función recursiva que procesa el JSON anidado de la cadena evolutiva de la PokéAPI,
-// dibujando cada etapa con sus respectivas flechas de conexión en el DOM.
+// 6. ÁRBOL EVOLUTIVO RECURSIVO
 function construirArbolEvolutivo(node, contenedor) {
     const nivelDiv = document.createElement('div');
     nivelDiv.classList.add('chain-level');
@@ -215,7 +210,7 @@ function construirArbolEvolutivo(node, contenedor) {
         });
     }
 }
-//Quiz de siluetas - Cambia la vista actual hacia el minijuego de adivinanza de siluetas.
+// Quiz de siluetas (con inyección dinámica)
 let pokemonActualQuiz = null;
 let intentosRestantes = 3;
 function iniciarQuiz() {
@@ -239,11 +234,57 @@ function iniciarQuiz() {
         vistaDetalle.classList.add('oculto');
     if (vistaComparador)
         vistaComparador.classList.add('oculto');
-    if (vistaQuiz)
+    if (vistaQuiz) {
         vistaQuiz.classList.remove('oculto');
+        vistaQuiz.innerHTML = `
+            <button id="btnVolverQuiz" class="btn-volver">Volver</button>
+            <h2>¿Quién es este Pokémon?</h2>
+            <div class="quiz-box">
+                <img id="quizImagen" class="pokemon-silueta" src="" alt="Silueta Pokémon">
+                <div id="quizPistas" class="quiz-pistas"><strong>Pista:</strong> ¡Adivina el Pokémon oculto!</div>
+                <div class="quiz-input-group">
+                    <input type="text" id="quizInput" placeholder="Escribe el nombre...">
+                    <button id="quizBtnAdivinar">Adivinar</button>
+                </div>
+                <p id="quizResultado"></p>
+                <p id="quizIntentos">Intentos restantes: 3</p>
+            </div>
+        `;
+        configurarEventosQuizDinamicos();
+    }
     cargarNuevoPokemonQuiz();
 }
-// El programa selecciona un Pokémon aleatorio del array global, aplica el filtro CSS de silueta y reinicia los contadores e inputs de la ronda.
+function configurarEventosQuizDinamicos() {
+    const btnVolverQuiz = document.getElementById('btnVolverQuiz');
+    if (btnVolverQuiz) {
+        btnVolverQuiz.addEventListener('click', function () {
+            const grillaPrincipal = document.getElementById('listaPokemon');
+            const controles = document.querySelector('.controles');
+            const tituloPrincipal = document.querySelector('h1');
+            const vistaQuiz = document.getElementById('vistaQuiz');
+            if (grillaPrincipal)
+                grillaPrincipal.classList.remove('oculto');
+            if (controles)
+                controles.classList.remove('oculto');
+            if (tituloPrincipal)
+                tituloPrincipal.classList.remove('oculto');
+            if (vistaQuiz)
+                vistaQuiz.classList.add('oculto');
+        });
+    }
+    const btnAdivinar = document.getElementById('quizBtnAdivinar');
+    if (btnAdivinar) {
+        btnAdivinar.addEventListener('click', verificarAdivinanza);
+    }
+    const quizInput = document.getElementById('quizInput');
+    if (quizInput) {
+        quizInput.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                verificarAdivinanza();
+            }
+        });
+    }
+}
 function cargarNuevoPokemonQuiz() {
     intentosRestantes = 3;
     const indiceAleatorio = Math.floor(Math.random() * todosLosPokemones.length);
@@ -269,7 +310,6 @@ function cargarNuevoPokemonQuiz() {
         input.focus();
     }
 }
-// Compara la respuesta ingresada por el usuario con el nombre real del Pokémon, descontando intentos, revelando pistas progresivas o mostrando el acierto.
 function verificarAdivinanza() {
     const input = document.getElementById('quizInput');
     const resultado = document.getElementById('quizResultado');
@@ -339,7 +379,7 @@ function verificarAdivinanza() {
         }
     }
 }
-// Comparador de estadísticas - Activa la vista del comparador y asegura que los selectores estén poblados.
+// Comparador de estadísticas (con inyección dinámica)
 function iniciarComparador() {
     if (todosLosPokemones.length === 0) {
         alert("Los Pokémon aún se están cargando, por favor aguarda un momento.");
@@ -361,11 +401,55 @@ function iniciarComparador() {
         vistaDetalle.classList.add('oculto');
     if (vistaQuiz)
         vistaQuiz.classList.add('oculto');
-    if (vistaComparador)
+    if (vistaComparador) {
         vistaComparador.classList.remove('oculto');
+        vistaComparador.innerHTML = `
+            <button id="btnVolverComparador" class="btn-volver">Volver</button>
+            <h2>Comparador de Pokémon (Hasta 3)</h2>
+            
+            <div class="selectores-comparador">
+                <select id="compPokemon1" class="comp-select">
+                    <option value="">Seleccionar Pokémon 1</option>
+                </select>
+                <select id="compPokemon2" class="comp-select">
+                    <option value="">Seleccionar Pokémon 2</option>
+                </select>
+                <select id="compPokemon3" class="comp-select">
+                    <option value="">Seleccionar Pokémon 3</option>
+                </select>
+            </div>
+
+            <button id="btnEjecutarComparacion" class="btn-comparar">Comparar Estadísticas</button>
+
+            <div id="resultadoComparacion" class="resultado-comparacion"></div>
+        `;
+        configurarEventosComparadorDinamicos();
+    }
     poblarSelectsComparador();
 }
-// Se rellenan las opciones de los 3 selects del comparador con la lista global de Pokémon.
+function configurarEventosComparadorDinamicos() {
+    const btnVolverComparador = document.getElementById('btnVolverComparador');
+    if (btnVolverComparador) {
+        btnVolverComparador.addEventListener('click', function () {
+            const grillaPrincipal = document.getElementById('listaPokemon');
+            const controles = document.querySelector('.controles');
+            const tituloPrincipal = document.querySelector('h1');
+            const vistaComparador = document.getElementById('vistaComparador');
+            if (grillaPrincipal)
+                grillaPrincipal.classList.remove('oculto');
+            if (controles)
+                controles.classList.remove('oculto');
+            if (tituloPrincipal)
+                tituloPrincipal.classList.remove('oculto');
+            if (vistaComparador)
+                vistaComparador.classList.add('oculto');
+        });
+    }
+    const btnEjecutarComparacion = document.getElementById('btnEjecutarComparacion');
+    if (btnEjecutarComparacion) {
+        btnEjecutarComparacion.addEventListener('click', ejecutarComparacion);
+    }
+}
 function poblarSelectsComparador() {
     const selects = ['compPokemon1', 'compPokemon2', 'compPokemon3'];
     selects.forEach(idSelect => {
@@ -380,8 +464,6 @@ function poblarSelectsComparador() {
         });
     });
 }
-//Extrae las estadísticas (HP, Ataque, Defensa, Velocidad) de los Pokémon seleccionados,
-// calcula sus porcentajes relativos y dibuja las tarjetas con barras gráficas en CSS.
 function ejecutarComparacion() {
     const id1 = document.getElementById('compPokemon1').value;
     const id2 = document.getElementById('compPokemon2').value;
@@ -438,7 +520,6 @@ function ejecutarComparacion() {
 }
 // Inicialización de eventos al cargar el DOM
 document.addEventListener('DOMContentLoaded', function () {
-    // Escucha de eventos para filtros en tiempo real
     const inputBuscador = document.getElementById('buscador');
     if (inputBuscador) {
         inputBuscador.addEventListener('input', filtrarPokemones);
@@ -451,7 +532,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (selectGen) {
         selectGen.addEventListener('change', filtrarPokemones);
     }
-    // Botón para volver a la grilla principal
     const btnVolver = document.getElementById('btnVolver');
     if (btnVolver) {
         btnVolver.addEventListener('click', function () {
@@ -469,67 +549,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 vistaDetalle.classList.add('oculto');
         });
     }
-    // Controles del Quiz de Siluetas
     const btnAbrirQuiz = document.getElementById('btnAbrirQuiz');
     if (btnAbrirQuiz) {
         btnAbrirQuiz.addEventListener('click', iniciarQuiz);
     }
-    const btnVolverQuiz = document.getElementById('btnVolverQuiz');
-    if (btnVolverQuiz) {
-        btnVolverQuiz.addEventListener('click', function () {
-            const grillaPrincipal = document.getElementById('listaPokemon');
-            const controles = document.querySelector('.controles');
-            const tituloPrincipal = document.querySelector('h1');
-            const vistaQuiz = document.getElementById('vistaQuiz');
-            if (grillaPrincipal)
-                grillaPrincipal.classList.remove('oculto');
-            if (controles)
-                controles.classList.remove('oculto');
-            if (tituloPrincipal)
-                tituloPrincipal.classList.remove('oculto');
-            if (vistaQuiz)
-                vistaQuiz.classList.add('oculto');
-        });
-    }
-    const btnAdivinar = document.getElementById('quizBtnAdivinar');
-    if (btnAdivinar) {
-        btnAdivinar.addEventListener('click', verificarAdivinanza);
-    }
-    const quizInput = document.getElementById('quizInput');
-    if (quizInput) {
-        quizInput.addEventListener('keydown', function (event) {
-            if (event.key === 'Enter') {
-                verificarAdivinanza();
-            }
-        });
-    }
-    // Controles del Comparador de Estadísticas
     const btnAbrirComparador = document.getElementById('btnAbrirComparador');
     if (btnAbrirComparador) {
         btnAbrirComparador.addEventListener('click', iniciarComparador);
     }
-    const btnVolverComparador = document.getElementById('btnVolverComparador');
-    if (btnVolverComparador) {
-        btnVolverComparador.addEventListener('click', function () {
-            const grillaPrincipal = document.getElementById('listaPokemon');
-            const controles = document.querySelector('.controles');
-            const tituloPrincipal = document.querySelector('h1');
-            const vistaComparador = document.getElementById('vistaComparador');
-            if (grillaPrincipal)
-                grillaPrincipal.classList.remove('oculto');
-            if (controles)
-                controles.classList.remove('oculto');
-            if (tituloPrincipal)
-                controles.classList.remove('oculto');
-            if (vistaComparador)
-                vistaComparador.classList.add('oculto');
-        });
-    }
-    const btnEjecutarComparacion = document.getElementById('btnEjecutarComparacion');
-    if (btnEjecutarComparacion) {
-        btnEjecutarComparacion.addEventListener('click', ejecutarComparacion);
-    }
-    // Inicialización de la aplicación: Llamadas iniciales a la API
     cargarTipos();
     cargarPokemones();
 });
